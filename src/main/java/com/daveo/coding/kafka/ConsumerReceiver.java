@@ -9,6 +9,8 @@ package com.daveo.coding.kafka;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 
 /**
  * 
@@ -37,8 +39,12 @@ public class ConsumerReceiver {
 	 *           message to receive
 	 */
 	@KafkaListener(topics="springKafkaDemoTopic.t")
-	public void receiveMessage(String message) {
-		log.info("received message='{}'", message);
-				
+	public void onReceiveMessage(String message, @Header(KafkaHeaders.OFFSET) Integer offset,
+            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
+            @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
+		
+			
+		log.info("Processing topic = {}, partition = {}, offset = {}, message = {}",
+                topic, partition, offset, message);
 	}
 }

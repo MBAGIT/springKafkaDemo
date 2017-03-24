@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +47,7 @@ public class ProducerSenderConfig {
 
 		props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
 		// key serialize type
-		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
 		// Value serialize type
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
@@ -74,7 +75,9 @@ public class ProducerSenderConfig {
 	 */
 	@Bean
 	public KafkaTemplate<String, String> kafkaTemplate() {
-		return new KafkaTemplate<String, String>(producerFactory());
+		KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<String, String>(producerFactory());
+		kafkaTemplate.setDefaultTopic("springKafkaDemoTopic.t");
+		return kafkaTemplate;
 	}
 
 	/**
