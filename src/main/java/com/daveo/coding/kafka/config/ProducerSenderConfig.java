@@ -1,7 +1,7 @@
 /*
  * Copyright 2017 the original author Mohamed Babchia.
  * 
- * <p>Inspired from codenotfound spring-kafka-consumer-producer-example
+ * <p>Inspired from http://docs.spring.io/spring-kafka/docs/1.1.2.RELEASE
  * 
  */
 package com.daveo.coding.kafka.config;
@@ -49,6 +49,10 @@ public class ProducerSenderConfig {
 		props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		// Value serialize type
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+
+		// allowing a logical application name to be included in server-side request logging
+		// props.put(ProducerConfig.CLIENT_ID_CONFIG, "customerServiceApi");
+
 		// after 5000 message which it will throw a TimeoutException
 		props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);
 
