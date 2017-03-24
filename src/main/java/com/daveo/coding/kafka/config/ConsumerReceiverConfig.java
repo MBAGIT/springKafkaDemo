@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -51,55 +50,46 @@ public class ConsumerReceiverConfig {
 		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
 		// set Value deserializer type
 		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-         
+
 		// set the consumer group if exist 
 		// props.put(ConsumerConfig.GROUP_ID_CONFIG, "customerGroup");
-		
+
 		// allowing a logical application name to be included in server-side request logging
 		//props.put(ConsumerConfig.CLIENT_ID_CONFIG, "customerServiceApi");
 
 		return props;
 	}
-	
+
 	/**
 	 *  Declaration & initialization of ConsumerFactory 
 	 *  
 	 */
 	@Bean
-    public ConsumerFactory<Integer, String> factory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
-    }
-    
+	public ConsumerFactory<Integer, String> factory() {
+		return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+	}
+
 	/**
 	 *  Declaration & initialization of listenerContainerFactory
 	 *  used by @KafkaListener
 	 *  
 	 */
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<Integer, String> listenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(factory());
+	@Bean
+	public ConcurrentKafkaListenerContainerFactory<Integer, String> listenerContainerFactory() {
+		ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+		factory.setConsumerFactory(factory());
 
-        return factory;
-    }
+		return factory;
+	}
 
-    /**
+	/**
 	 *  Declaration & initialization of receiver
 	 *  
 	 *  
 	 */
-    @Bean
-    public ConsumerReceiver receiver() {
-        return new ConsumerReceiver();
-    }
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Bean
+	public ConsumerReceiver receiver() {
+		return new ConsumerReceiver();
+	}
 
 }
