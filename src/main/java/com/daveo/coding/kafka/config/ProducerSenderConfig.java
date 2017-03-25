@@ -55,7 +55,7 @@ public class ProducerSenderConfig {
 		// props.put(ProducerConfig.CLIENT_ID_CONFIG, "customerServiceApi");
 
 		// after 5000 message which it will throw a TimeoutException
-		props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);
+//		props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 5000);
 
 		return props;
 	}
@@ -86,7 +86,7 @@ public class ProducerSenderConfig {
 	 */
 	@Bean
 	public ProducerSender sender() {
-		return new ProducerSender();
+		return new ProducerSender(producerConfigs());
 	}
 
 }

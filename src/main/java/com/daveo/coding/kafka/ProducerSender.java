@@ -6,6 +6,10 @@
  */
 package com.daveo.coding.kafka;
 
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -22,8 +26,9 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
  * @author Mohamed Babchia
  *
  */
-public class ProducerSender 	{
+public class ProducerSender extends KafkaProducer<Integer, String>	{
 
+	
 	/*
 	 * Logger for sender Class
 	 */
@@ -42,13 +47,15 @@ public class ProducerSender 	{
 	 * 
 	 * @param topic
 	 * @param message
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public void sendMessage(String topic, String message) {
+	public void sendMessage(String topic, int partition, String data) throws InterruptedException, ExecutionException {
 
 		/**
-		 *  init of futur with send method of kafkaTemplate
+		 *  use of send method of kafkaTemplate
 		 */
-		ListenableFuture<SendResult<String, String>> futur = kafkaTemplate.send(topic, message);
+		ListenableFuture<SendResult<String, String>> futur = kafkaTemplate.send( topic,  partition,  data);
 
 		/**
 		 * callback method for futur
@@ -59,14 +66,14 @@ public class ProducerSender 	{
 
 					@Override
 					public void onSuccess(SendResult<String, String> result) {
-						log.info("success sent message='{}' with offset={}", message,
+						log.info("success sent message='{}' with offset={}", data,
 								result.getRecordMetadata().offset());
 
 					}
 
 					@Override
 					public void onFailure(Throwable ex) {
-						log.error("failure unable to send message='{}'", message, ex);
+						log.error("failure unable to send message='{}'", data, ex);
 
 					}
 
@@ -75,7 +82,16 @@ public class ProducerSender 	{
 		);
 
 		// alternatively, to block the sending  invoke the future's get() method
+		//futur.get();
 
 	}
+	
+	
+	
+	public ProducerSender(Map<String, Object> configs) {
+		super(configs);
+		// TODO Auto-generated constructor stub
+	}
+
 
 }

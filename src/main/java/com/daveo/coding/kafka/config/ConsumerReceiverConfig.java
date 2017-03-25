@@ -57,7 +57,7 @@ public class ConsumerReceiverConfig {
 		props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
 
 		// set the consumer group if exist 
-		// props.put(ConsumerConfig.GROUP_ID_CONFIG, "customerGroup");
+		 props.put(ConsumerConfig.GROUP_ID_CONFIG, "customerGroupDemoUnit");
 
 		// allowing a logical application name to be included in server-side request logging
 		//props.put(ConsumerConfig.CLIENT_ID_CONFIG, "customerServiceApi");
@@ -95,7 +95,7 @@ public class ConsumerReceiverConfig {
 	 */
 	@Bean
 	public ConsumerReceiver receiver() {
-		return new ConsumerReceiver();
+		return new ConsumerReceiver(consumerConfigs());
 	}
 
 }
