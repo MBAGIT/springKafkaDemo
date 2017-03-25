@@ -18,10 +18,6 @@ import com.daveo.coding.kafka.config.ProducerSenderConfig;
 @SpringBootTest(classes = DemoApplication.class)
 public class DemoApplicationTests {
 
-	//	 private static final String TEMPLATE_TOPIC = "templateTopic";
-
-	//		private Logger log = LoggerFactory.getLogger(DemoApplicationTests.class);
-
 	@Autowired
 	private ProducerSenderConfig producerSenderConfig;
 
@@ -31,12 +27,10 @@ public class DemoApplicationTests {
 	@Test
 	public void testWithoutEmbedeKafka() throws Exception {
 
-//		producerSenderConfig.sender().sendMessage("springKafkaDemoTopic.t", 0, "message0");
-//		producerSenderConfig.sender().sendMessage("springKafkaDemoTopic.t", 0, "message1");
-				producerSenderConfig.sender()
-						.send(new ProducerRecord<Integer, String>("springKafkaDemoTopic.t", 0, 0, "message2")).get();
-				producerSenderConfig.sender()
-						.send(new ProducerRecord<Integer, String>("springKafkaDemoTopic.t", 0, 0, "message3")).get();
+		producerSenderConfig.sender()
+				.send(new ProducerRecord<Integer, String>("springKafkaDemoTopic.t", 0, 0, "message2")).get();
+		producerSenderConfig.sender()
+				.send(new ProducerRecord<Integer, String>("springKafkaDemoTopic.t", 0, 0, "message3")).get();
 
 		ConsumerReceiver consumerReceiver = consumerConfig.receiver();
 		Collection<String> topics = new ArrayList<String>(0);
